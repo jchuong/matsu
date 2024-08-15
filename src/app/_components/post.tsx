@@ -4,22 +4,22 @@ import { useState } from "react";
 
 import { api } from "~/trpc/react";
 
-export function LatestPost() {
-  const [latestPost] = api.post.getLatest.useSuspenseQuery();
+export function LatestItem() {
+  const [latestItem] = api.item.getLatest.useSuspenseQuery();
 
   const utils = api.useUtils();
   const [name, setName] = useState("");
-  const createPost = api.post.create.useMutation({
+  const createPost = api.item.create.useMutation({
     onSuccess: async () => {
-      await utils.post.invalidate();
+      await utils.item.invalidate();
       setName("");
     },
   });
 
   return (
     <div className="w-full max-w-xs">
-      {latestPost ? (
-        <p className="truncate">Your most recent post: {latestPost.name}</p>
+      {latestItem ? (
+        <p className="truncate">Your most recent post: {latestItem.name}</p>
       ) : (
         <p>You have no posts yet.</p>
       )}
