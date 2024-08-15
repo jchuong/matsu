@@ -16,14 +16,15 @@ import { type AdapterAccount } from "next-auth/adapters";
  */
 export const createTable = sqliteTableCreator((name) => `matsu_${name}`);
 
-export const posts = createTable(
-  "post",
+export const items = createTable(
+  "items",
   {
     id: int("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
     name: text("name", { length: 256 }),
     createdById: text("created_by", { length: 255 })
       .notNull()
       .references(() => users.id),
+    lastCompletedAt: int("completed_at", { mode: "timestamp" }),
     createdAt: int("created_at", { mode: "timestamp" })
       .default(sql`(unixepoch())`)
       .notNull(),
