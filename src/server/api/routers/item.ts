@@ -45,5 +45,6 @@ export const itemRouter = createTRPCRouter({
         orderBy: (item, { desc }) => [desc(item.lastCompletedAt)]
       }
     )
+    return items;
   }),
 });
