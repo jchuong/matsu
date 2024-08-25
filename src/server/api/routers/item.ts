@@ -1,3 +1,4 @@
+import { eq } from "drizzle-orm";
 import { z } from "zod";
 
 import {
@@ -47,4 +48,12 @@ export const itemRouter = createTRPCRouter({
     )
     return items;
   }),
+
+  completeItemToday: protectedProcedure
+    .input(z.object({ id: z.number() }))
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db.update(items)
+        .set({ lastCompletedAt: new Date() })
+        .where(eq(items.id, input.id))
+    }),
 });

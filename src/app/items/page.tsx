@@ -1,7 +1,11 @@
 import { redirect } from "next/navigation";
+import { CheckIcon } from "@radix-ui/react-icons";
+import { Button } from "~/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "~/components/ui/table";
 import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/server";
+import { completeToday } from "~/app/items/actions";
+import UpdateButton from "../_components/UpdateButton";
 
 function getDiffInDays(pastDate: Date) {
     const now = new Date();
@@ -27,16 +31,20 @@ export default async function Items() {
                 <TableHead>Created at</TableHead>
                 <TableHead>Last Completed</TableHead>
                 <TableHead>Days Since</TableHead>
+                <TableHead>Actions</TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>
                 {items.map(item =>
                     <TableRow key={item.id}>
-                    <TableCell className="font-medium">{item.id}</TableCell>
-                    <TableCell>{item.name}</TableCell>
-                    <TableCell>{item.createdAt.toLocaleDateString()}</TableCell>
-                    <TableCell>{item.lastCompletedAt?.toLocaleDateString() ?? '-'}</TableCell>
-                    <TableCell>{item.lastCompletedAt ? getDiffInDays(item.lastCompletedAt) : '-'}</TableCell>
+                        <TableCell className="font-medium">{item.id}</TableCell>
+                        <TableCell>{item.name}</TableCell>
+                        <TableCell>{item.createdAt.toLocaleDateString()}</TableCell>
+                        <TableCell>{item.lastCompletedAt?.toLocaleDateString() ?? '-'}</TableCell>
+                        <TableCell>{item.lastCompletedAt ? getDiffInDays(item.lastCompletedAt) : '-'}</TableCell>
+                        <TableCell>
+                            <UpdateButton id={item.id} />
+                        </TableCell>
                     </TableRow>
                 )}
             </TableBody>
