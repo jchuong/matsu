@@ -36,4 +36,14 @@ export const itemRouter = createTRPCRouter({
   getSecretMessage: protectedProcedure.query(() => {
     return "you can now see this secret message!";
   }),
+
+  getItemsByUser: protectedProcedure.query(async ({ ctx }) => {
+    const userId = ctx.session.user.id;
+    const items = await ctx.db.query.items.findMany(
+      {
+        where: (item, { eq }) => eq(item.createdById, userId),
+        orderBy: (item, { desc }) => [desc(item.lastCompletedAt)]
+      }
+    )
+  }),
 });
