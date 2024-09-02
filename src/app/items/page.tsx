@@ -6,6 +6,7 @@ import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/server";
 import { completeToday } from "~/app/items/actions";
 import UpdateButton from "../_components/UpdateButton";
+import AddEditItem from "../_components/AddEditItem";
 
 function getDiffInDays(pastDate: Date) {
     const now = new Date();
@@ -23,6 +24,7 @@ export default async function Items() {
 
     return (
         <main className="flex min-h-screen flex-col items-center justify-center">
+            <AddEditItem />
             <Table>
             <TableHeader>
                 <TableRow>
