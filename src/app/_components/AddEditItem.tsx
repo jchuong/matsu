@@ -5,9 +5,10 @@ import { useId, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { Button } from '~/components/ui/button';
+import { DatePicker } from '~/components/ui/datepicker';
 
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogTitle, DialogTrigger } from '~/components/ui/dialog';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form';
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form';
 import { Input } from '~/components/ui/input';
 
 const itemSchema = z.object({
@@ -49,6 +50,16 @@ export default function AddEditItem({ id }: AddEditItemProps) {
                                 <FormControl>
                                     <Input {...field} />
                                 </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )} />
+                        <FormField control={form.control} name="lastCompletedAt" render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Last Completed At</FormLabel>
+                                <FormControl>
+                                    <DatePicker value={field.value} onChange={field.onChange} />
+                                </FormControl>
+                                <FormDescription>Optional</FormDescription>
                                 <FormMessage />
                             </FormItem>
                         )} />
