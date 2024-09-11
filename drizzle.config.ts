@@ -8,6 +8,6 @@ export default {
   dbCredentials: {
     url: env.DATABASE_URL,
   },
-  out: './drizzle',
+  out: "./drizzle",
   tablesFilter: ["matsu_*"],
 } satisfies Config;

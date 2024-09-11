@@ -40,20 +40,19 @@ export const itemRouter = createTRPCRouter({
 
   getItemsByUser: protectedProcedure.query(async ({ ctx }) => {
     const userId = ctx.session.user.id;
-    const items = await ctx.db.query.items.findMany(
-      {
-        where: (item, { eq }) => eq(item.createdById, userId),
-        orderBy: (item, { desc }) => [desc(item.lastCompletedAt)]
-      }
-    )
+    const items = await ctx.db.query.items.findMany({
+      where: (item, { eq }) => eq(item.createdById, userId),
+      orderBy: (item, { desc }) => [desc(item.lastCompletedAt)],
+    });
     return items;
   }),
 
   completeItemToday: protectedProcedure
     .input(z.object({ id: z.number() }))
     .mutation(async ({ ctx, input }) => {
-      await ctx.db.update(items)
+      await ctx.db
+        .update(items)
         .set({ lastCompletedAt: new Date() })
-        .where(eq(items.id, input.id))
+        .where(eq(items.id, input.id));
     }),
 });
