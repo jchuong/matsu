@@ -18,11 +18,12 @@ export const itemRouter = createTRPCRouter({
     }),
 
   create: protectedProcedure
-    .input(z.object({ name: z.string().min(1) }))
+    .input(z.object({ name: z.string().min(1), lastCompletedAt: z.optional(z.date()) }))
     .mutation(async ({ ctx, input }) => {
       await ctx.db.insert(items).values({
         name: input.name,
         createdById: ctx.session.user.id,
+        lastCompletedAt: input.lastCompletedAt,
       });
     }),
 

@@ -25,6 +25,7 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
+import { create } from "~/app/items/actions";
 
 const itemSchema = z.object({
   name: z.string().min(1).max(256),
@@ -40,8 +41,9 @@ export default function AddEditItem({ id }: AddEditItemProps) {
     resolver: zodResolver(itemSchema),
   });
 
-  const onSubmit = (values: z.infer<typeof itemSchema>) => {
+  const onSubmit = async (values: z.infer<typeof itemSchema>) => {
     console.log(values);
+    await create(values);
     setOpen(false);
   };
 

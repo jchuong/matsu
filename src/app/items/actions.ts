@@ -7,3 +7,8 @@ export async function completeToday(id: number) {
   console.log("id updated", id);
   revalidatePath("/items");
 }
+
+export async function create(input: { name: string, lastCompletedAt?: Date }) {
+  await api.item.create(input);
+  revalidatePath("/items");
+}
