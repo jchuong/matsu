@@ -30,8 +30,10 @@ export default async function Items() {
   const items = await api.item.getItemsByUser();
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center">
-      <AddEditItem />
+    <main className="flex min-h-screen flex-col items-end gap-2 p-4">
+      <div className="flex-grow-0">
+        <AddEditItem />
+      </div>
       <Table>
         <TableHeader>
           <TableRow>
