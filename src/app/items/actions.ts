@@ -8,7 +8,16 @@ export async function completeToday(id: number) {
   revalidatePath("/items");
 }
 
-export async function create(input: { name: string, lastCompletedAt?: Date }) {
+export async function create(input: { name: string; lastCompletedAt?: Date }) {
   await api.item.create(input);
+  revalidatePath("/items");
+}
+
+export async function update(input: {
+  id: number;
+  name: string;
+  lastCompletedAt?: Date;
+}) {
+  await api.item.update(input);
   revalidatePath("/items");
 }

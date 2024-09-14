@@ -58,7 +58,10 @@ export default async function Items() {
                   : "-"}
               </TableCell>
               <TableCell>
-                <UpdateButton id={item.id} />
+                <div className="flex gap-2">
+                  <UpdateButton id={item.id} />
+                  <AddEditItem id={item.id} />
+                </div>
               </TableCell>
             </TableRow>
           ))}

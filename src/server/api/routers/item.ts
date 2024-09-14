@@ -18,13 +18,44 @@ export const itemRouter = createTRPCRouter({
     }),
 
   create: protectedProcedure
-    .input(z.object({ name: z.string().min(1), lastCompletedAt: z.optional(z.date()) }))
+    .input(
+      z.object({
+        name: z.string().min(1),
+        lastCompletedAt: z.optional(z.date()),
+      }),
+    )
     .mutation(async ({ ctx, input }) => {
       await ctx.db.insert(items).values({
         name: input.name,
         createdById: ctx.session.user.id,
         lastCompletedAt: input.lastCompletedAt,
       });
+    }),
+
+  update: protectedProcedure
+    .input(
+      z.object({
+        id: z.number(),
+        name: z.string().min(1),
+        lastCompletedAt: z.optional(z.date()),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const userId = ctx.session.user.id;
+      const item = await ctx.db.query.items.findFirst({
+        where: (item, { and, eq }) =>
+          and(eq(item.id, input.id), eq(item.createdById, userId)),
+      });
+      if (!item) {
+        throw new Error("Invalid item");
+      }
+      return await ctx.db
+        .update(items)
+        .set({
+          name: input.name,
+          lastCompletedAt: input.lastCompletedAt ?? item.lastCompletedAt,
+        })
+        .where(eq(items.id, input.id));
     }),
 
   getLatest: publicProcedure.query(async ({ ctx }) => {

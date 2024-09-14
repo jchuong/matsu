@@ -9,7 +9,7 @@ export function LatestItem() {
 
   const utils = api.useUtils();
   const [name, setName] = useState("");
-  const createPost = api.item.create.useMutation({
+  const createPost = api.item.upsert.useMutation({
     onSuccess: async () => {
       await utils.item.invalidate();
       setName("");

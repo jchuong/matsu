@@ -25,7 +25,7 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
-import { create } from "~/app/items/actions";
+import { create, update } from "~/app/items/actions";
 
 const itemSchema = z.object({
   name: z.string().min(1).max(256),
@@ -43,14 +43,18 @@ export default function AddEditItem({ id }: AddEditItemProps) {
 
   const onSubmit = async (values: z.infer<typeof itemSchema>) => {
     console.log(values);
-    await create(values);
+    if (id) {
+      await update({ id, ...values });
+    } else {
+      await create(values);
+    }
     setOpen(false);
   };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>Add</Button>
+        <Button>{id ? "Edit" : "Add"}</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogTitle>{id ? "Edit Item" : "Add new item"}</DialogTitle>
