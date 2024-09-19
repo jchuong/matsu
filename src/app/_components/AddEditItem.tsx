@@ -26,15 +26,16 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { create, update } from "~/app/items/actions";
+import { type Item } from "~/types";
 
 const itemSchema = z.object({
   name: z.string().min(1).max(256),
   lastCompletedAt: z.date().optional(),
 });
 interface AddEditItemProps {
-  id?: number;
+  item?: Item;
 }
-export default function AddEditItem({ id }: AddEditItemProps) {
+export default function AddEditItem({ item }: AddEditItemProps) {
   const [open, setOpen] = useState(false);
   const formId = useId();
   const form = useForm<z.infer<typeof itemSchema>>({
@@ -42,9 +43,8 @@ export default function AddEditItem({ id }: AddEditItemProps) {
   });
 
   const onSubmit = async (values: z.infer<typeof itemSchema>) => {
-    console.log(values);
-    if (id) {
-      await update({ id, ...values });
+    if (item) {
+      await update({ id: item.id, ...values });
     } else {
       await create(values);
     }
@@ -54,10 +54,10 @@ export default function AddEditItem({ id }: AddEditItemProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>{id ? "Edit" : "Add"}</Button>
+        <Button>{item ? "Edit" : "Add"}</Button>
       </DialogTrigger>
       <DialogContent>
-        <DialogTitle>{id ? "Edit Item" : "Add new item"}</DialogTitle>
+        <DialogTitle>{item ? "Edit Item" : "Add new item"}</DialogTitle>
         <DialogDescription>Use this to add or modify an item</DialogDescription>
         <Form {...form}>
           <form
@@ -68,6 +68,7 @@ export default function AddEditItem({ id }: AddEditItemProps) {
             <FormField
               control={form.control}
               name="name"
+              defaultValue={item?.name!}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Name</FormLabel>
@@ -81,6 +82,7 @@ export default function AddEditItem({ id }: AddEditItemProps) {
             <FormField
               control={form.control}
               name="lastCompletedAt"
+              defaultValue={item?.lastCompletedAt!}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Last Completed At</FormLabel>

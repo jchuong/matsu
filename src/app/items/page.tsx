@@ -1,6 +1,4 @@
 import { redirect } from "next/navigation";
-import { CheckIcon } from "@radix-ui/react-icons";
-import { Button } from "~/components/ui/button";
 import {
   Table,
   TableBody,
@@ -62,7 +60,7 @@ export default async function Items() {
               <TableCell>
                 <div className="flex gap-2">
                   <UpdateButton id={item.id} />
-                  <AddEditItem id={item.id} />
+                  <AddEditItem item={item} />
                 </div>
               </TableCell>
             </TableRow>
