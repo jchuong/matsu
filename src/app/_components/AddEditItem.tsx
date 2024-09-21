@@ -68,7 +68,7 @@ export default function AddEditItem({ item }: AddEditItemProps) {
             <FormField
               control={form.control}
               name="name"
-              defaultValue={item?.name!}
+              defaultValue={item?.name ?? ''}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Name</FormLabel>
@@ -82,7 +82,7 @@ export default function AddEditItem({ item }: AddEditItemProps) {
             <FormField
               control={form.control}
               name="lastCompletedAt"
-              defaultValue={item?.lastCompletedAt!}
+              defaultValue={item?.lastCompletedAt ?? undefined}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Last Completed At</FormLabel>

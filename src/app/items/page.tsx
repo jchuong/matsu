@@ -9,9 +9,8 @@ import {
 } from "~/components/ui/table";
 import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/server";
-import { completeToday } from "~/app/items/actions";
-import UpdateButton from "../_components/UpdateButton";
-import AddEditItem from "../_components/AddEditItem";
+import UpdateButton from "~/app/_components/UpdateButton";
+import AddEditItem from "~/app/_components/AddEditItem";
 
 function getDiffInDays(pastDate: Date) {
   const now = new Date();

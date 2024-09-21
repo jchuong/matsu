@@ -15,13 +15,13 @@ import {
 
 interface DatePickerProps {
   value?: Date;
-  onChange: (...event: any[]) => void;
+  onChange: (value: Date | undefined) => void;
 }
 
 export function DatePicker({ value, onChange }: DatePickerProps) {
   const [open, setOpen] = React.useState(false);
-  const onSelect = (event: any) => {
-    onChange(event);
+  const onSelect = (date: Date | undefined) => {
+    onChange(date);
     setOpen(false);
   };
   return (
