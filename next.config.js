@@ -9,6 +9,10 @@ const config = {
     reactStrictMode: true,
     swcMinify: true,
     output: "standalone",
+    webpack: (config) => {
+        config.externals.push('bun:sqlite');
+        return config;
+    },
 };
 
 export default config;
