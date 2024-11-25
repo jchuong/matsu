@@ -1,6 +1,6 @@
 services:
   app:
-    image: matsu:latest
+    image: ghcr.io/jchuong/matsu:v1.0.1
     volumes:
       - sqlite_data:/data/db
     environment:
